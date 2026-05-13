@@ -69,7 +69,10 @@ public class PaymentController {
 			notify.put("email", true);
 			paymentLinkRequest.put("notify", notify);
 			
-			paymentLinkRequest.put("callback_url", "http://localhost:3000/payment/"+orderId);
+			paymentLinkRequest.put(
+				    "callback_url",
+				    "https://your-vercel-app.vercel.app/payment/" + orderId
+				);
 			paymentLinkRequest.put("callback_method", "get");
 			
 			PaymentLink payment=razorpay.paymentLink.create(paymentLinkRequest);
