@@ -158,24 +158,32 @@ public class ProductServiceImplementation implements ProductService {
     ) {
 
         // ✅ STEP 1: Fetch all products (no pagination)
-        List<Product> products = productRepository.filterProducts(
-                category,
-                minPrice,
-                maxPrice,
-                minDiscount,
-                Pageable.unpaged()
-        ).getContent();
+    	List<Product> products = productRepository.filterProducts(
+    			category,
+    	        minPrice,
+    	        maxPrice,
+    	        minDiscount,
+    	        Pageable.unpaged()
+    	).getContent();
+    	// ✅ COLOR FILTER
+    	if (colors != null && !colors.isEmpty()) {
 
-     // ✅ FIXED COLOR FILTER (EXACT MATCH)
-        if (colors != null && !colors.isEmpty()) {
-            products = products.stream()
-                .filter(p -> p.getColor() != null &&
-                    colors.stream().anyMatch(c ->
-                        p.getColor().equalsIgnoreCase(c)
-                    )
-                )
-                .collect(Collectors.toList());
-        }
+    	    products = products.stream()
+    	        .filter(p -> {
+
+    	            if (p.getColor() == null) {
+    	                return false;
+    	            }
+
+    	            String productColor = p.getColor().trim().toLowerCase();
+
+    	            return colors.stream()
+    	                .anyMatch(c ->
+    	                    productColor.contains(c.trim().toLowerCase())
+    	                );
+    	        })
+    	        .collect(Collectors.toList());
+    	}
 
         // ✅ SIZE FILTER
         if (sizes != null && !sizes.isEmpty()) {
