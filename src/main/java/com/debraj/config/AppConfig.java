@@ -47,9 +47,10 @@ public class AppConfig {
                     .requestMatchers(
                             "/",
                             "/auth/**",
-                            "/error"
+                            "/error",
+                            "/api/products/**"
                     ).permitAll()
-
+                    
                     .anyRequest().authenticated()
             )
 
