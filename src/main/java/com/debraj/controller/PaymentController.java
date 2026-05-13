@@ -71,7 +71,7 @@ public class PaymentController {
 			
 			paymentLinkRequest.put(
 				    "callback_url",
-				    "https://your-vercel-app.vercel.app/payment/" + orderId
+				    "https://novacart-bay.vercel.app/payment/" + orderId
 				);
 			paymentLinkRequest.put("callback_method", "get");
 			
