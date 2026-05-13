@@ -55,7 +55,7 @@ public class JwtValidator extends OncePerRequestFilter {
                         .getBody();
 
                 // ✅ FINAL FIX
-                String email = claims.get("email", String.class);
+                String email = claims.getSubject();
 
                 if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                     UsernamePasswordAuthenticationToken auth =
