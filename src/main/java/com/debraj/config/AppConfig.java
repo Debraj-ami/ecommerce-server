@@ -70,10 +70,7 @@ public class AppConfig {
 
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(List.of(
-                "http://localhost:3000",
-                "https://novacart-bay.vercel.app"
-        ));
+        configuration.addAllowedOriginPattern("*");
 
         configuration.setAllowedMethods(List.of(
                 "GET",
@@ -85,7 +82,7 @@ public class AppConfig {
 
         configuration.setAllowedHeaders(List.of("*"));
 
-        configuration.setAllowCredentials(true);
+        configuration.setAllowCredentials(false);
 
         UrlBasedCorsConfigurationSource source =
                 new UrlBasedCorsConfigurationSource();
