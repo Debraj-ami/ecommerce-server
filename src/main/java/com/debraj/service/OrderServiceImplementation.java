@@ -141,4 +141,14 @@ public class OrderServiceImplementation implements OrderService {
         Order order = findOrderById(orderId);
         orderRepository.delete(order);
     }
+    
+    @Override
+    public Order canceledOrder(Long orderId) throws OrderException {
+
+        Order order = findOrderById(orderId);
+
+        order.setOrderStatus("CANCELLED");
+
+        return orderRepository.save(order);
+    }
 }

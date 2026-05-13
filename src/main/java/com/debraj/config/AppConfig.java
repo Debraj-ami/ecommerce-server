@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -43,13 +44,14 @@ public class AppConfig {
 
             // authorization rules
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers(
-                        "/",
-                        "/auth/**",
-                        "/error"
-                ).permitAll()
-                .anyRequest().authenticated()
-            )
+            	    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+            	    .requestMatchers(
+            	            "/",
+            	            "/auth/**",
+            	            "/error"
+            	    ).permitAll()
+            	    .anyRequest().authenticated()
+            	)
 
             // disable default login page
             .formLogin(form -> form.disable())
@@ -65,14 +67,29 @@ public class AppConfig {
     // 🔥 THIS IS THE MISSING PART
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
+
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(List.of("http://localhost:3000","https://novacart-bay.vercel.app/"));
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedOrigins(List.of(
+                "http://localhost:3000",
+                "https://novacart-bay.vercel.app"
+        ));
+
+        configuration.setAllowedMethods(List.of(
+                "GET",
+                "POST",
+                "PUT",
+                "DELETE",
+                "OPTIONS"
+        ));
+
         configuration.setAllowedHeaders(List.of("*"));
+
         configuration.setAllowCredentials(true);
 
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        UrlBasedCorsConfigurationSource source =
+                new UrlBasedCorsConfigurationSource();
+
         source.registerCorsConfiguration("/**", configuration);
 
         return source;
